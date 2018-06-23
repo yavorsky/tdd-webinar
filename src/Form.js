@@ -16,8 +16,12 @@ export default class Form extends Component {
   }
   handleSubmit() {
     const { email } = this.state;
-    if (this.props.onFormSubmit && validateEmail(email)) {
-      this.props.onFormSubmit({ email });
+    if (validateEmail(email)) {
+      if (this.props.onFormSubmit) {
+        this.props.onFormSubmit({ email });
+      }
+    } else {
+      this.setState({ error: 'Email is not valid' });
     }
   }
   render() {
@@ -25,6 +29,7 @@ export default class Form extends Component {
       <form data-hook="hi-form">
         <span data-hook="hi-form-description">Please, fill the form</span>
         <input data-hook="hi-form-input-email" value={this.state.email} onChange={this.handleEmailChange} />
+        {this.state.error && <span data-hook="hi-form-input-error">{this.state.error}</span>}
         <div data-hook="hi-form-submit" onClick={this.handleSubmit}>Submit</div>
       </form>
     )

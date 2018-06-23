@@ -13,8 +13,17 @@ describe('App e2e', () => {
 
   it('should load the page', async () => {
     await page.goto('http://localhost:3000', {waitUntil: 'networkidle2'});
+    const value = await page.$eval('[data-hook="hi-button"]', (el) => el.innerHTML);
+    expect(value).toBe('Start');
+  })
+
+  it('should load the page', async () => {
+    await page.goto('http://localhost:3000', {waitUntil: 'networkidle2'});
     await page.click('[data-hook="hi-button"]');
     const value = await page.$eval('[data-hook="hi-form-description"]', (el) => el.innerHTML);
+    // page.evaluate(() => {
+    //   debugger;
+    // });
     expect(value).toBe('Please, fill the form');
   })
 });
